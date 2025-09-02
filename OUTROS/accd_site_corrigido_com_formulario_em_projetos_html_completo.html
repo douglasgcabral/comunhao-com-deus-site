@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-br" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Associação Comunhão com Deus</title>
+  <meta name="description" content="Associação Comunhão com Deus, fundada em 2014, transforma vidas através de projetos sociais e ações solidárias em São Paulo.">
+  <meta name="keywords" content="Associação Comunhão com Deus, projetos sociais, doação, cesta básica, marmitex solidária, São Paulo">
+  <meta name="author" content="Associação Comunhão com Deus">
+  <meta property="og:title" content="Associação Comunhão com Deus">
+  <meta property="og:description" content="Transformando vidas desde 2014 com projetos sociais e ações solidárias. Junte-se a nós!">
+  <meta property="og:image" content="https://seusite.com/logo.png">
+  <meta property="og:url" content="https://seusite.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <!-- Performance para fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body{font-family:'Roboto',sans-serif;margin:0;padding:0;background-color:#f2f2f2;color:#333;padding-bottom:100px;}
+    #quem-somos p,#mensagem-lideres p{font-size:1.2em;line-height:1.6;}
+    header{background-color:#3E5B73;color:white;text-align:center;padding:15px 0;font-size:1.8em;font-family:'Roboto',sans-serif;font-weight:bold;display:flex;justify-content:center;align-items:center;gap:20px;text-transform:uppercase;letter-spacing:1px;}
+    .logo{height:60px;}
+    nav{background-color:#2C3E50;overflow:hidden;text-align:center;}
+    nav a{display:inline-block;color:#fff;padding:15px 25px;text-decoration:none;font-size:1.1em;transition:background-color 0.3s ease,color 0.3s ease,transform .2s ease, box-shadow .2s ease;font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+    nav a:hover{background-color:#34495E;transform: translateY(-2px);box-shadow:0 2px 5px rgba(0,0,0,0.2);}    
+    nav a.active{background-color:#1abc9c;color:#fff;border-radius:5px;}
+    section{padding:20px;background-color:#fff;margin:20px;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,0.08);display:none;opacity:0;transition: transform 0.3s ease, box-shadow 0.3s ease;}
+    section:hover {transform: translateY(-5px);box-shadow:0 8px 25px rgba(0,0,0,0.12);}    
+    .tab-content.active{display:block;opacity:1;animation:fadeIn 0.1s ease-in-out;}
+    @keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+    #inicio .resumo{max-width:700px;margin:0 auto;text-align:center;}
+    #inicio .resumo p{font-size:1.4em;font-weight:bold;text-align:center;margin-bottom:15px;}
+    #inicio .resumo img{max-width:450px;width:100%;height:auto;}
+    #inicio .resumo div{margin-top:30px;margin-bottom:20px;}
+    footer{background-color:#3E5B73;color:white;padding:15px 0;position:fixed;bottom:0;width:100%;}
+    .footer-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:center;align-items:center;}
+    .footer-text{flex:1;text-align:center;}
+    .tooltip{position:relative;}
+    .tooltip .tooltip-text{visibility:hidden;width:120px;background-color:#333;color:#fff;text-align:center;border-radius:5px;padding:5px;position:absolute;z-index:1;bottom:125%;left:50%;transform:translateX(-50%);opacity:0;transition:opacity 0.3s;}
+    .tooltip:hover .tooltip-text{visibility:visible;opacity:1;}
+
+    .gallery-container{position:relative;overflow:hidden;max-width:100%;}
+    .gallery{display:flex;transition:transform 0.5s ease;flex-wrap:nowrap;}
+    .gallery-item{position:relative;display:inline-block;margin-right:15px;}
+    .gallery-item img{flex:0 0 auto;width:250px;height:150px;object-fit:cover;border-radius:8px;cursor:pointer;transition:transform 0.3s ease,box-shadow 0.3s ease;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
+    .gallery-item:hover img{transform:scale(1.1);box-shadow:0 8px 16px rgba(0,0,0,0.3);}    
+    .caption{position:absolute;bottom:0;left:0;right:0;background-color:rgba(0,0,0,0.7);color:white;padding:5px;text-align:center;font-size:0.9em;opacity:0;transition:opacity 0.3s ease;border-radius:0 0 8px 8px;}
+    .gallery-item:hover .caption{opacity:1;}
+
+    .zoomed-image{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.8);display:none;justify-content:center;align-items:center;z-index:1000;}
+    .zoomed-image.active{display:flex;}
+    .zoomed-image img{max-width:90%;max-height:90%;}
+
+    .metas-table{width:100%;border-collapse:collapse;margin-top:20px;animation:slideIn 0.5s ease-in-out;border-radius:8px;overflow:hidden;}
+    @keyframes slideIn{0%{transform:translateY(20px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    .metas-table th,.metas-table td{padding:12px;text-align:center;border:1px solid #ddd;font-size:1.1em;}
+    .metas-table th{background: linear-gradient(135deg, #3E5B73 0%, #2C3E50 100%);color:#fff;font-weight:bold;}
+    .metas-table td{background-color:#f9f9f9;transition: all 0.3s ease;position:relative;}
+    .metas-table tr:nth-child(even) td{background-color:#f1f1f1;}
+    .metas-table tr:hover td{background-color:#E2E8F0;}
+    .metas-table td::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background: linear-gradient(90deg, #3E5B73, #2C3E50);opacity:0;transition:opacity 0.3s;}
+    .metas-table td:hover::after{opacity:1;}
+
+    form{display:flex;flex-direction:column;max-width:600px;margin:0 auto;}
+    label{font-size:1em;margin-bottom:5px;}
+    input,textarea{padding:10px;margin:10px 0;border-radius:5px;border:1px solid #ddd;}
+    input[type="submit"],button[type="submit"], .footer-btn{background: linear-gradient(135deg, #3E5B73 0%, #2C3E50 100%);color:white;border:none;cursor:pointer;padding:12px;font-size:1em;letter-spacing:.5px;animation:pulse 3s infinite;}
+    input[type="submit"]:hover,button[type="submit"]:hover{background-color:#2C3E50;}
+
+    .doacao{display:flex;flex-direction:column;align-items:center;gap:20px;}
+    .doacao p{background: linear-gradient(90deg, #3E5B73, #2C3E50);color: white;padding: 15px;border-radius: 8px;width: fit-content;margin: 0 auto;box-shadow: 0 4px 8px rgba(0,0,0,0.1);text-align: center;font-size: 1.4em;}
+    .doacao img{border: 2px solid #3E5B73;padding: 10px;background: white;max-width: 400px;}
+
+    .progress-bar-container{margin:20px 0;}
+    .progress-bar{width:100%;background-color:#f1f1f1;border-radius:5px;overflow:hidden;height:20px;}
+    .progress{background-color:#3E5B73;height:100%;transition:width 1s ease-in-out;}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background: linear-gradient(90deg, rgba(62,91,115,0.7), rgba(44,62,80,0.7)) !important;color:white;border:none;padding:10px;cursor:pointer;font-size:1.5em;border-radius:5px;}
+    .carousel-btn.prev{left:10px;}
+    .carousel-btn.next{right:10px;}
+
+    h2{animation:titleFade 0.5s ease-in-out;}
+    @keyframes titleFade{0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
+    .counter{display:inline-block;font-weight:bold;color:#3E5B73;}
+
+    @keyframes pulse { 0% { transform: scale(1);} 50% { transform: scale(1.03);} 100% { transform: scale(1);} }
+
+    header { box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: box-shadow 0.3s; }
+    header:hover { box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+
+    footer { background: linear-gradient(90deg, #3E5B73, #2C3E50); border-top: 3px solid #1abc9c; }
+
+    /* MOBILE */
+    @media (max-width:600px){
+      header{flex-direction:column;gap:10px;padding:10px 0;font-size:1.4em;}
+      .logo{height:50px;}
+      nav a{padding:10px 15px;font-size:1em;}
+      .gallery-item img{width:100%;max-width:200px;height:auto;}
+      .metas-table th,.metas-table td{font-size:0.9em;padding:8px;}
+      .back-to-top{width:40px;height:40px;font-size:0.9em;}
+      #inicio .resumo img{max-width:300px;}
+      #inicio .resumo p{font-size:1.2em;}
+      .doacao img{max-width:300px;}
+      .doacao p{font-size:1.3em;}
+      .footer-container{flex-direction:column;gap:10px;padding:10px 20px;}
+      .footer-text{margin:10px 0;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- (Opcional) Funções utilitárias SheetJS desativadas caso não utilize XLSX em outras páginas
+<script type="text/javascript">
+  var gk_isXlsx = false;
+  var gk_xlsxFileLookup = {};
+  var gk_fileData = {};
+  function filledCell(cell) { return cell !== '' && cell != null; }
+  function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+      try {
+        var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];
+        var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+        var filteredData = jsonData.filter(row => row.some(filledCell));
+        var headerRowIndex = filteredData.findIndex((row, index) =>
+          row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+        );
+        if (headerRowIndex === -1 || headerRowIndex > 25) headerRowIndex = 0;
+        var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+        csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+        return csv;
+      } catch (e) {
+        console.error(e);
+        return "";
+      }
+    }
+    return gk_fileData[filename] || "";
+  }
+</script>
+-->
+
+<header role="banner">
+  <img src="logo.png" alt="Logo" class="logo">
+  <div>ASSOCIAÇÃO COMUNHÃO COM DEUS</div>
+</header>
+
+<nav role="navigation" aria-label="Menu principal">
+  <a href="#inicio" onclick="showTab('inicio', this); return false;" class="active">Início</a>
+  <a href="#quem-somos" onclick="showTab('quem-somos', this); return false;">Quem Somos</a>
+  <a href="#projetos" onclick="showTab('projetos', this); return false;">Projetos</a>
+  <a href="#metas" onclick="showTab('metas', this); return false;">Metas</a>
+  <a href="#mensagem-lideres" onclick="showTab('mensagem-lideres', this); return false;">Mensagem dos Líderes</a>
+  <a href="#como-ajudar" onclick="showTab('como-ajudar', this); return false;">Como Ajudar</a>
+  <a href="#galeria" onclick="showTab('galeria', this); return false;">Galeria</a>
+  <a href="#nosso-progresso" onclick="showTab('nosso-progresso', this); return false;">Nosso Progresso</a>
+  <a href="#doacao" onclick="showTab('doacao', this); return false;">Doação</a>
+</nav>
+
+<section id="inicio" class="tab-content active">
+  <div class="resumo">
+    <p>A Associação Comunhão com Deus é uma entidade fundada em 2014, com a missão de transformar vidas através de projetos sociais e ações solidárias.</p>
+    <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+      <img src="5dddefbd-ff2e-4d32-a324-bab225177ca7.png" alt="Logo Associação Comunhão com Deus" style="max-width: 490px; width: 100%; height: auto;">
+    </div>
+  </div>
+</section>
+
+<section id="quem-somos" class="tab-content">
+  <h2>Quem Somos</h2>
+  <p>A Associação Comunhão com Deus foi fundada em 2014, enfrentou alguns desafios para se estruturar no terceiro setor e conseguir se manter com seus projetos voltados para Jovens em situação de vulnerabilidade e pessoas de baixa renda. Não muito diferentes das grandes ONGs, a Associação Comunhão com Deus vem crescendo e enfrentando seus desafios para se manter e conseguir alcançar o maior número de pessoas dentro da nossa sociedade. Seu fundador, Sr. Ivam Carlos de Araujo, tem sido peça fundamental para o crescimento e elaboração de projetos que visam o desenvolvimento da sociedade e seus arredores. A Associação Comunhão com Deus a partir de projetos e parcerias com empreendedores, desenvolve suas atividades de forma a incentivar crianças, jovens e pessoas de baixa renda a realizar seus sonhos proporcionando a todos o direito de crescimentos em sociedade. Levar cesta básicas para famílias carentes vem sendo um dos projetos de maior desenvolvimento na ACCD, reunindo assim um grande número de família cadastrada em nossa ONG aproximadamente 250 famílias. Outros projetos também fazem parte da nossa estrutura, levar alimentos aos moradores de comunidades e moradores em situação de rua, onde também é realizada ação social de corte de cabelo, higienização e troca de roupas, temos projetos para jovens com incentivo a música e instrumentos em parcerias com professores voluntários. A Associação Comunhão com Deus tem gerado para as pessoas de baixa renda, um caminho para inclusão e oportunidade de realizar sonhos e projetos dificilmente alcançado sem esse braço da ACCD, talvez para alguns difícil de alcançar e impossível de realizar.</p>
+</section>
+
+<section id="projetos" class="tab-content">
+  <h2>Projetos</h2>
+
+  <h3>Projetos Sociais</h3>
+  <table class="metas-table">
+    <thead>
+      <tr><th>Nº</th><th>Projeto</th><th>Descrição</th><th>Impacto</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td><i class="fas fa-shopping-basket icon"></i>Cesta Solidária</td>
+        <td>Projeto cesta solidária é uma parceria com a prefeitura de São Paulo, onde famílias são cadastradas e beneficiadas com entrega de cesta básica</td>
+        <td>150 Famílias/ ações</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td><i class="fas fa-utensils icon"></i>Marmitex Solidária</td>
+        <td>Projeto Marmita Solidária tem alcançado famílias em situação de vulnerabilidade e moradores de rua. Temos parceiros e voluntários que nos ajudam com alimentos e água para a realização dessa ação.</td>
+        <td>200 refeições/ ações</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td><i class="fas fa-heartbeat icon"></i>ASA - Ações de Saúde e Autoestima</td>
+        <td>Ação social realizada pela ACCD, com ajuda de voluntários e profissionais, como cabeleireiro, manicure, dentista e profissionais da área da saúde, acesso para pessoas de 12 anos a 60 anos</td>
+        <td>60 pessoas/ ações</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Projetos Educacionais/Culturais</h3>
+  <table class="metas-table">
+    <thead>
+      <tr><th>Nº</th><th>Projeto</th><th>Descrição</th><th>Impacto</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>04</td>
+        <td><i class="fas fa-music icon"></i>MUT - Música Universal para Todos</td>
+        <td>Objetivo de trazer a inclusão na música para jovens que estão em desenvolvimento no seu talento e necessitam de incentivo. Os professores voluntários se propõem a ensinar cada aluno com dedicação e comprometimento.</td>
+        <td>10 pessoas/ ações</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td><i class="fas fa-guitar icon"></i>IME - Instrumentos Musical e Educacional</td>
+        <td>Associação Comunhão com Deus oferece juntos com seus Professores voluntários, aulas de instrumentos musicais, como bateria, violão, baixo, Guitarra, teclado e outros</td>
+        <td>8 pessoas/ ações</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td><i class="fas fa-graduation-cap icon"></i>PAP - Programa de aceleração profissional</td>
+        <td>Projeto realizados com parceria de profissionais da área da beleza e bem estar, capacitados a oferecer o melhor desenvolvimento profissional aos alunos da ACCD</td>
+        <td>6 pessoas/ ações</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Formulário Google incorporado -->
+  <h3 style="margin-top:28px;">Inscreva-se/Participe</h3>
+  <div style="position:relative;padding-top:0;">
+    <iframe title="Formulário de Projetos ACCD" src="https://docs.google.com/forms/d/e/1FAIpQLSe08c1tioLuPqvSAvIRJiJg4EJ5zAliMzqm_Vm8ii--sO1_XA/viewform?usp=dialog&embedded=true" width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">Carregando…</iframe>
+  </div>
+</section>
+
+<section id="metas" class="tab-content">
+  <h2>Metas para 2025</h2>
+  <h3>Projetos Sociais</h3>
+  <table class="metas-table">
+    <thead>
+      <tr><th>Nº</th><th>Projeto</th><th>Descrição</th><th>Meta 2025</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td><i class="fas fa-shopping-basket icon"></i>Cesta Solidária</td>
+        <td>Projeto cesta solidária é uma parceria com a prefeitura de São Paulo, onde famílias são cadastradas e beneficiadas com entrega de cesta básica</td>
+        <td>150 Famílias/ ações para 250</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td><i class="fas fa-utensils icon"></i>Marmitex Solidária</td>
+        <td>Projeto Marmita Solidária tem alcançado famílias em situação de vulnerabilidade e moradores de rua. Temos parceiros e voluntários que nos ajudam com alimentos e água para a realização dessa ação.</td>
+        <td>200 refeições/ ações para 300</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td><i class="fas fa-heartbeat icon"></i>ASA - Ações de Saúde e Autoestima</td>
+        <td>Ação social realizada pela ACCD, com ajuda de voluntários e profissionais, como cabeleireiro, manicure, dentista e profissionais da área da saúde, acesso para pessoas de 12 anos a 60 anos</td>
+        <td>60 pessoas/ ações para 80</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Projetos Educacionais/Culturais</h3>
+  <table class="metas-table">
+    <thead>
+      <tr><th>Nº</th><th>Projeto</th><th>Descrição</th><th>Meta 2025</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>04</td>
+        <td><i class="fas fa-music icon"></i>MUT - Música Universal para Todos</td>
+        <td>Objetivo de trazer a inclusão na música para jovens que estão em desenvolvimento no seu talento e necessitam de incentivo. Os professores voluntários se propõem a ensinar cada aluno com dedicação e comprometimento.</td>
+        <td>Aumentar de 10 pessoas/ ações para 15</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td><i class="fas fa-guitar icon"></i>IME - Instrumentos Musical e Educacional</td>
+        <td>Associação Comunhão com Deus oferece juntos com seus Professores voluntários, aulas de instrumentos musicais, como bateria, violão, baixo, Guitarra, teclado e outros</td>
+        <td>Aumentar 8 pessoas/ ações para 12</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td><i class="fas fa-graduation-cap icon"></i>PAP - Programa de aceleração profissional</td>
+        <td>Projeto realizados com parceria de profissionais da área da beleza e bem estar, capacitados a oferecer o melhor desenvolvimento profissional aos alunos da ACCD</td>
+        <td>Aumentar 6 pessoas/ ações para 10</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="mensagem-lideres" class="tab-content">
+  <h2>Mensagem dos Líderes</h2>
+  <p>Todo começo traz seus desafios e medos que juntamente com pessoas que acreditaram que seria possível ajudar ao próximo sem ter muito, foi criado um fio de esperança aonde a mão estendida nos transmitia vontade de crescer e ver pessoas crescendo conosco. A Associação Comunhão com Deus, tem se tornando uma ponte para ajudar pessoas carentes. Dando a possibilidade para voluntários a se torna a diferença na vida de pessoas que não os conhecem, mas já se sentem grato por ter alguém lhe estendo a mão. Somos gratos por ter pessoas ao nosso lado que visam o acolhimento aos mais vulneráveis e demostram carinho e afeto por realizar uma missão tão valiosa, como a de ajudar quem mais precisa. Que nosso amor a vidas, possa alcançar os mais distantes lugares, transformando famílias através do ato de estender a mão, ajudar o próximo e o amor em cada momento dessa trajetória. Essa é a principal ação da Associação Comunhão com Deus amar o próximo como amamos o que fazemos todos os dia.</p>
+</section>
+
+<section id="como-ajudar" class="tab-content">
+  <h2>Como Ajudar</h2>
+  <div id="contact-form-container">
+    <form id="contact-form">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" placeholder="Nome" aria-required="true" required>
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="E-mail" aria-required="true" required>
+      <label for="mensagem">Mensagem</label>
+      <textarea id="mensagem" name="mensagem" placeholder="Mensagem" aria-required="true" required></textarea>
+      <button type="submit" id="submit-btn">
+        <span id="submit-text">Enviar Mensagem</span>
+        <span class="form-loading"></span>
+      </button>
+    </form>
+    <div id="thank-you-message">
+      <h3>Obrigado pelo seu contato!</h3>
+      <p>Retornaremos em breve.</p>
+      <button onclick="resetForm()">Enviar nova mensagem</button>
+    </div>
+  </div>
+</section>
+
+<section id="nosso-progresso" class="tab-content">
+  <h1>INDICADOR DO PROGRESSO</h1>
+  
+  <div class="progress-bar-container">
+    <h3>Projeto Cesta Solidária (Qtde Família)</h3>
+    <div class="progress-bar">
+      <div class="progress" style="width: 60%;"></div>
+    </div>
+    <p><span class="counter" data-target="250" aria-live="polite">0</span> famílias atendidas (Meta: 400 famílias)</p>
+  </div>
+  
+  <div class="progress-bar-container">
+    <h3>Marmitex Solidária (Qtde de Marmitex)</h3>
+    <div class="progress-bar">
+      <div class="progress" style="width: 80%;"></div>
+    </div>
+    <p><span class="counter" data-target="320" aria-live="polite">0</span> marmitex distribuídas (Meta: 400 marmitex)</p>
+  </div>
+  
+  <div class="progress-bar-container">
+    <h3>ASA – Ações de Saúde e Autoestima (Qtde de Beneficiário)</h3>
+    <div class="progress-bar">
+      <div class="progress" style="width: 40%;"></div>
+    </div>
+    <p><span class="counter" data-target="160" aria-live="polite">0</span> beneficiários atendidos (Meta: 400 beneficiários)</p>
+  </div>
+  
+  <h2>Associação Comunhão Com Deus - ACCD</h2>
+  
+  <table class="metas-table">
+    <tr>
+      <th>DESCRIÇÃO DO PROJETO</th>
+      <th>2023</th>
+      <th>2024</th>
+      <th>TOTAL</th>
+    </tr>
+    <tr>
+      <td>Projeto cesta Solidaria (Qtde Família)</td>
+      <td>100</td>
+      <td>150</td>
+      <td>250</td>
+    </tr>
+    <tr>
+      <td>Marmitex Solidaria (Qtde de Marmitex)</td>
+      <td>120</td>
+      <td>200</td>
+      <td>320</td>
+    </tr>
+    <tr>
+      <td>ASA – Ações de Saúde e Autoestima (Qtde de Beneficiário)</td>
+      <td>60</td>
+      <td>100</td>
+      <td>160</td>
+    </tr>
+  </table>
+</section>
+
+<section id="galeria" class="tab-content">
+  <h2>Galeria</h2>
+  <div class="gallery-container">
+    <div class="gallery" id="auto-gallery"></div>
+    <button class="carousel-btn prev" onclick="moveCarousel(-1)">❮</button>
+    <button class="carousel-btn next" onclick="moveCarousel(1)">❯</button>
+  </div>
+</section>
+
+<section id="doacao" class="tab-content">
+  <div class="doacao">
+    <p>Faça sua doação via PIX: 46448505000114</p>
+    <img src="qrcode-pix.png" alt="QR Code PIX">
+  </div>
+</section>
+
+<footer>
+  <div class="footer-container">
+    <p class="footer-text">© 2025 Associação Comunhão com Deus</p>
+  </div>
+</footer>
+
+<!-- Botões flutuantes (uma única versão) -->
+<div class="whatsapp-btn" style="position: fixed; bottom: 20px; right: 20px; background-color: #25D366; border-radius: 5px; padding: 12px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); font-size: 1.2em; color: white; text-align: center; cursor: pointer; transition: background-color 0.3s ease; z-index: 1000;">
+  <a href="https://wa.me/5511954584240" target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:none;">
+    <i class="fab fa-whatsapp"></i> Entre em contato no WhatsApp
+  </a>
+</div>
+
+<div class="instagram-btn" style="position: fixed; bottom: 20px; left: 20px; background-color: #E1306C; border-radius: 5px; padding: 12px 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); font-size: 1.2em; color: white; text-align: center; cursor: pointer; transition: background-color 0.3s ease; z-index: 1000;">
+  <a href="https://www.instagram.com/associacao.comunhaocomdeus/" target="_blank" rel="noopener noreferrer" style="color:white; text-decoration:none;">
+    <i class="fab fa-instagram"></i> Siga-nos no Instagram
+  </a>
+</div>
+
+<!-- Back to Top Button -->
+<div class="back-to-top tooltip" onclick="scrollToTop()" style="position:fixed;bottom:80px;right:20px;background-color:#3E5B73;color:white;border-radius:50%;width:50px;height:50px;display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3);opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s ease;">
+  <i class="fas fa-arrow-up"></i>
+  <span class="tooltip-text">Voltar ao topo</span>
+</div>
+
+<script>
+  // Inicializa o EmailJS
+  document.addEventListener('DOMContentLoaded', function(){
+    if (window.emailjs && emailjs.init) {
+      emailjs.init('P7ueERc401YmDrdFS');
+    }
+  });
+
+  // Função para mostrar/ocultar abas
+  function showTab(tabId, link) {
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+
+    const links = document.querySelectorAll('nav a');
+    links.forEach(a => {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    });
+    link.classList.add('active');
+    link.setAttribute('aria-current', 'page');
+  }
+
+  // Função para zoom nas imagens (acessível)
+  function zoomImage(img) {
+    let existingZoom = document.querySelector('.zoomed-image');
+    if (existingZoom) existingZoom.remove();
+
+    const zoomedImage = document.createElement('div');
+    zoomedImage.classList.add('zoomed-image', 'active');
+    zoomedImage.setAttribute('role','dialog');
+    zoomedImage.setAttribute('aria-modal','true');
+
+    const zoomedImg = document.createElement('img');
+    zoomedImg.src = img.src;
+    zoomedImage.appendChild(zoomedImg);
+    document.body.appendChild(zoomedImage);
+
+    function closeZoom(){ zoomedImage.remove(); document.removeEventListener('keydown', escHandler); }
+    function escHandler(e){ if (e.key === 'Escape') closeZoom(); }
+    zoomedImage.onclick = closeZoom;
+    document.addEventListener('keydown', escHandler);
+  }
+
+  // Cria a galeria automaticamente com legendas
+  const imagens = [
+    { src: 'foto1.jpg', caption: 'Entrega de cestas básicas 2023' },
+    { src: 'foto2.jpg', caption: 'Marmitex Solidária 2024' },
+    { src: 'foto3.jpg', caption: 'Ação de saúde e autoestima' },
+    { src: 'foto4.jpg', caption: 'Aula de música para jovens' },
+    { src: 'foto5.jpg', caption: 'Voluntários em ação' },
+    { src: 'foto6.jpg', caption: 'Capacitação profissional' },
+    { src: 'foto7.jpg', caption: 'Distribuição de roupas' },
+    { src: 'foto8.jpg', caption: 'Evento comunitário' }
+  ];
+  const galeria = document.getElementById('auto-gallery');
+  imagens.forEach(img => {
+    const container = document.createElement('div');
+    container.classList.add('gallery-item');
+    const imgElement = document.createElement('img');
+    imgElement.src = `images/galeria/${img.src}`;
+    imgElement.alt = `Foto ${img.src.split('.')[0]}`;
+    imgElement.setAttribute('loading', 'lazy');
+    imgElement.onclick = function() { zoomImage(this); };
+    const caption = document.createElement('div');
+    caption.classList.add('caption');
+    caption.textContent = img.caption;
+    container.appendChild(imgElement);
+    container.appendChild(caption);
+    galeria.appendChild(container);
+  });
+
+  // Carrossel da galeria
+  let currentIndex = 0;
+  function moveCarousel(direction) {
+    const images = document.querySelectorAll('#auto-gallery .gallery-item');
+    const totalImages = images.length;
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = totalImages - 1;
+    if (currentIndex >= totalImages) currentIndex = 0;
+    updateCarousel();
+  }
+  function updateCarousel() {
+    const gallery = document.getElementById('auto-gallery');
+    gallery.style.transform = `translateX(-${currentIndex * 260}px)`;
+  }
+  setInterval(() => { moveCarousel(1); }, 8000);
+
+  // Configuração do formulário de contato
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const mensagem = document.getElementById('mensagem').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nome || nome.length < 2) {
+      Swal.fire({ title: 'Erro!', text: 'Por favor, insira um nome válido.', icon: 'error', confirmButtonText: 'OK' });
+      return;
+    }
+    if (!email || !emailRegex.test(email)) {
+      Swal.fire({ title: 'Erro!', text: 'Por favor, insira um e-mail válido.', icon: 'error', confirmButtonText: 'OK' });
+      return;
+    }
+    if (!mensagem || mensagem.length < 10) {
+      Swal.fire({ title: 'Erro!', text: 'A mensagem deve ter pelo menos 10 caracteres.', icon: 'error', confirmButtonText: 'OK' });
+      return;
+    }
+
+    const submitBtn = document.getElementById('submit-btn');
+    const form = document.getElementById('contact-form');
+    const thankYouMessage = document.getElementById('thank-you-message');
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('#submit-text').textContent = 'Enviando...';
+    submitBtn.querySelector('.form-loading').style.display = 'inline-block';
+
+    const serviceID = 'service_ghdxidm';
+    const templateID = 'template_pxdy2pg';
+
+    emailjs.sendForm(serviceID, templateID, this)
+      .then(function() {
+        form.classList.add('hidden');
+        thankYouMessage.classList.add('active');
+        Swal.fire({ title: 'Mensagem enviada!', text: 'Obrigado por entrar em contato conosco.', icon: 'success', confirmButtonText: 'OK' });
+      }, function(error) {
+        console.error('Erro ao enviar:', error);
+        Swal.fire({ title: 'Erro!', text: 'Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.', icon: 'error', confirmButtonText: 'OK' });
+        submitBtn.disabled = false;
+        submitBtn.querySelector('#submit-text').textContent = 'Enviar Mensagem';
+        submitBtn.querySelector('.form-loading').style.display = 'none';
+      });
+  });
+
+  function resetForm() {
+    const form = document.getElementById('contact-form');
+    const thankYouMessage = document.getElementById('thank-you-message');
+    form.classList.remove('hidden');
+    thankYouMessage.classList.remove('active');
+    form.reset();
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = false;
+    submitBtn.querySelector('#submit-text').textContent = 'Enviar Mensagem';
+    submitBtn.querySelector('.form-loading').style.display = 'none';
+  }
+
+  // Voltar ao topo
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.addEventListener('scroll', function() {
+    const backToTop = document.querySelector('.back-to-top');
+    if (window.scrollY > 300) {
+      backToTop.classList.add('active');
+      backToTop.style.opacity = '1';
+      backToTop.style.visibility = 'visible';
+    } else {
+      backToTop.classList.remove('active');
+      backToTop.style.opacity = '0';
+      backToTop.style.visibility = 'hidden';
+    }
+  });
+
+  // Contador Animado
+  function animateCounter(element, target, duration) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    const updateCounter = () => {
+      start += increment;
+      if (start >= target) {
+        element.textContent = target;
+      } else {
+        element.textContent = Math.ceil(start);
+        requestAnimationFrame(updateCounter);
+      }
+    };
+    updateCounter();
+  }
+
+  const counters = document.querySelectorAll('.counter');
+  const progressSection = document.getElementById('nosso-progresso');
+  let countersAnimated = false;
+
+  function checkCountersVisibility() {
+    if (progressSection.classList.contains('active') && !countersAnimated) {
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        animateCounter(counter, target, 2000);
+      });
+      countersAnimated = true;
+    }
+  }
+
+  const observer = new MutationObserver(checkCountersVisibility);
+  observer.observe(progressSection, { attributes: true, attributeFilter: ['class'] });
+  checkCountersVisibility();
+</script>
+
+</body>
+</html>
