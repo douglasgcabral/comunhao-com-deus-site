@@ -622,143 +622,145 @@
   </style>
 
 <div class="galeria-wrap">
-  <!-- Filtros por grupo -->
-  <div class="galeria-filtros" role="tablist" aria-label="Grupos da galeria">
-    <button data-cat="acao-infantil" role="tab" aria-selected="false">Ação Social Infantil</button>
-    <button data-cat="acao-rua" role="tab" aria-selected="false">Ação Social – Rua</button>
+    <!-- Filtros por grupo -->
+    <div class="galeria-filtros" role="tablist" aria-label="Grupos da galeria">
+      
+            <button data-cat="acao-infantil" role="tab" aria-selected="false">Ação Social Infantil</button>
+      <button data-cat="acao-rua" role="tab" aria-selected="false">Ação Social – Rua</button>
+
+    </div>
+
+    <!-- Grid onde os álbuns/fotos serão renderizados -->
+    <div id="albumGrid" class="album-grid" aria-live="polite"></div>
   </div>
 
-  <!-- Grid onde os álbuns/fotos serão renderizados -->
-  <div id="albumGrid" class="album-grid" aria-live="polite"></div>
-</div>
+  <!-- Script isolado para a galeria categorizada -->
+  <script>
+    (function(){
+      // Defina aqui as fotos por grupo (subpastas sugeridas)
+      const albums = {
+        batismo: [
+          {src: 'images/galeria/batismo/1.jpg', caption: ''},
+          {src: 'images/galeria/batismo/2.jpg', caption: ''},
+          {src: 'images/galeria/batismo/3.jpg', caption: ''}
+        ],
+        'acao-infantil': [
+          {src: 'images/galeria/acao-infantil/1.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/2.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/3.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/4.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/5.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/6.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/7.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/8.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/9.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/10.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/11.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/12.jpg', caption: ''},
+          {src: 'images/galeria/acao-infantil/13.jpg', caption: ''}
+        ],
+        'acao-rua': [
+          {src: 'images/galeria/acao-rua/1.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/2.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/3.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/4.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/5.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/6.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/7.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/8.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/9.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/10.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/11.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/12.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/13.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/14.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/15.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/16.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/17.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/18.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/19.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/20.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/21.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/22.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/23.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/24.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/25.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/27.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/28.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/29.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/30.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/31.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/32.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/33.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/34.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/35.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/36.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/37.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/38.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/39.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/40.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/41.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/42.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/43.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/44.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/45.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/46.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/47.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/48.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/49.jpg', caption: ''},
+          {src: 'images/galeria/acao-rua/50.jpg', caption: ''}
+        ],
+        musica: [
+          {src: 'images/galeria/musica/1.jpg', caption: ''},
+          {src: 'images/galeria/musica/2.jpg', caption: ''}
+        ],
+        eventos: [
+          {src: 'images/galeria/eventos/1.jpg', caption: ''},
+          {src: 'images/galeria/eventos/2.jpg', caption: ''}
+        ]
+      };
 
-<!-- Script isolado para a galeria categorizada -->
-<script>
-  (function() {
-    // Defina aqui as fotos por grupo (subpastas sugeridas)
-    const albums = {
-      'acao-infantil': [
-        { src: 'images/galeria/acao-infantil/1.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/2.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/3.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/4.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/5.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/6.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/7.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/8.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/9.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/10.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/11.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/12.jpg', caption: '' },
-        { src: 'images/galeria/acao-infantil/13.jpg', caption: '' }
-      ],
-      'acao-rua': [
-        { src: 'images/galeria/acao-rua/1.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/2.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/3.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/4.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/5.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/6.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/7.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/8.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/9.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/10.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/11.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/12.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/13.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/14.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/15.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/16.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/17.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/18.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/19.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/20.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/21.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/22.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/23.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/24.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/25.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/27.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/28.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/29.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/30.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/31.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/32.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/33.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/34.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/35.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/36.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/37.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/38.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/39.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/40.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/41.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/42.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/43.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/44.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/45.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/46.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/47.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/48.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/49.jpg', caption: '' },
-        { src: 'images/galeria/acao-rua/50.jpg', caption: '' }
-      ]
-    };
+      // Gera array "todas"
+      const todas = Object.entries(albums).flatMap(([cat, arr]) => arr.map(f => ({...f, cat})));
 
-    // Gera array "todas" apenas com as categorias existentes
-    const todas = Object.entries(albums).flatMap(([cat, arr]) => arr.map(f => ({ ...f, cat })));
+      const grid = document.getElementById('albumGrid');
+      const btns = document.querySelectorAll('#galeria .galeria-filtros button');
 
-    const grid = document.getElementById('albumGrid');
-    const btns = document.querySelectorAll('#galeria .galeria-filtros button');
+      function imgFallback(ev){ ev.target.style.display = 'none'; }
 
-    function imgFallback(ev) {
-      const img = ev.target;
-      img.style.display = 'none'; // Oculta a imagem com erro
-      const card = img.parentElement;
-      const errorMsg = document.createElement('p');
-      errorMsg.textContent = 'Imagem não disponível';
-      errorMsg.style.color = '#666';
-      errorMsg.style.textAlign = 'center';
-      errorMsg.style.padding = '10px';
-      card.appendChild(errorMsg);
-    }
-
-    function render(cat) {
-      const data = (cat === 'todas') ? todas : (albums[cat] || []);
-      grid.innerHTML = '';
-      if (!data.length) {
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;margin:20px 0;">Ainda não há fotos neste grupo.</p>';
-        return;
+      function render(cat){
+        const data = (cat === 'todas') ? todas : (albums[cat] || []);
+        grid.innerHTML = '';
+        if (!data.length){
+          grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;margin:20px 0;">Ainda não há fotos neste grupo.</p>';
+          return;
+        }
+        data.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'album-card';
+          const img = document.createElement('img');
+          img.src = item.src; img.alt = item.caption; img.loading = 'lazy';
+          img.onclick = () => { if (window.zoomImage) zoomImage(img); };
+          img.onerror = imgFallback;
+          const caption = document.createElement('div');
+          caption.className = 'album-caption';
+          caption.textContent = item.caption || '';
+          card.appendChild(img); card.appendChild(caption);
+          grid.appendChild(card);
+        });
       }
-      data.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'album-card';
-        const img = document.createElement('img');
-        img.src = item.src;
-        img.alt = item.caption || 'Foto da galeria';
-        img.loading = 'lazy';
-        img.onclick = () => { if (window.zoomImage) zoomImage(img); };
-        img.onerror = imgFallback;
-        const caption = document.createElement('div');
-        caption.className = 'album-caption';
-        caption.textContent = item.caption || '';
-        card.appendChild(img);
-        card.appendChild(caption);
-        grid.appendChild(card);
-      });
-    }
 
-    btns.forEach(b => b.addEventListener('click', () => {
-      btns.forEach(x => { x.classList.remove('active'); x.setAttribute('aria-selected', 'false'); });
-      b.classList.add('active');
-      b.setAttribute('aria-selected', 'true');
-      render(b.getAttribute('data-cat'));
-    }));
+      btns.forEach(b => b.addEventListener('click', () => {
+        btns.forEach(x => { x.classList.remove('active'); x.setAttribute('aria-selected','false'); });
+        b.classList.add('active'); b.setAttribute('aria-selected','true');
+        render(b.getAttribute('data-cat'));
+      }));
 
-    // Render inicial
-    render('todas');
-  })();
-</script>
+      // Render inicial
+      render('todas');
+    })();
+  </script>
+</section>
 
 <!-- Nova aba Inscrição -->
 <section id="inscricao" class="tab-content">
