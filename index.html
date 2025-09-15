@@ -131,6 +131,140 @@
     h2{animation:titleFade 0.5s ease-in-out;}
     @keyframes titleFade{0%{opacity:0;transform:translateY(-10px);}100%{opacity:1;transform:translateY(0);}}
     .counter{display:inline-block;font-weight:bold;color:#3E5B73;}
+    /* Estilos para o Popup */
+    .popup-overlay {
+      display: none; /* Escondido por padrão */
+      position: fixed; /* Fixo na tela */
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Acima de todo o conteúdo */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .popup-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .popup-overlay.active .popup-content {
+      transform: translateY(0);
+    }
+
+    .popup-content h2 {
+      color: #3E5B73;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.8em;
+    }
+
+    .popup-content p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .popup-content .close-button {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 2em;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .popup-content .close-button:hover {
+      color: #333;
+    }
+
+    .popup-action-button {
+      background: linear-gradient(135deg, #3E5B73 0%, #2C3E50 100%);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      margin-top: 20px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .popup-action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .popup-option-button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+
+    .popup-option-button.active {
+      background: linear-gradient(135deg, #3E5B73 0%, #2C3E50 100%);
+      color: white;
+      border-color: #3E5B73;
+    }
+
+    .popup-option-button:hover:not(.active) {
+      background-color: #e0e0e0;
+    }
+
+    #popup-media-content iframe {
+      width: 100%;
+      height: 315px; /* Altura padrão para vídeos do YouTube */
+      border: none;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    /* Responsividade para o popup */
+    @media (max-width: 600px) {
+      .popup-content {
+        padding: 20px;
+      }
+      .popup-content h2 {
+        font-size: 1.5em;
+      }
+      .popup-content p {
+        font-size: 1em;
+      }
+      .popup-action-button {
+        padding: 10px 20px;
+        font-size: 1em;
+      }
+      .popup-option-button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+      }
+      #popup-media-content iframe {
+        height: 200px;
+      }
+    }
+
     /* ============= MELHORIAS VISUAIS ============= */
     nav a:hover {
         transform: translateY(-2px);
@@ -366,6 +500,29 @@
   </style>
 </head>
 <body>
+
+<!-- Popup de Mensagem/Avisos -->
+<div id="initial-popup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-button">&times;</span>
+    <h2>Bem-vindo à Associação Comunhão com Deus!</h2>
+    <div id="popup-options" style="margin-bottom: 15px;">
+      <button id="show-message-btn" class="popup-option-button active">Ver Mensagem</button>
+      <button id="show-video-btn" class="popup-option-button">Ver Vídeo</button>
+    </div>
+    <!-- Conteúdo do popup pode ser mensagem ou vídeo -->
+    <div id="popup-media-content">
+      <div id="popup-message-text">
+        <p>Fique por dentro das nossas últimas notícias e eventos. Sua participação é muito importante para nós!</p>
+      </div>
+      <div id="popup-video-container" style="display:none;">
+        <!-- Exemplo de vídeo do YouTube. Substitua o 'src' pelo URL do seu vídeo. -->
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/vW806AhP4qQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <button id="popup-close-btn" class="popup-action-button">Entendi!</button>
+  </div>
+</div>
 <header role="banner">
   <img src="logo.png" alt="Logo" class="logo">
   <div>ASSOCIAÇÃO COMUNHÃO COM DEUS</div>
@@ -1147,6 +1304,87 @@
 
   // Verifica inicialmente caso a seção já esteja ativa
   checkCountersVisibility();
+</script>
+<script>
+  // Função para mostrar o popup
+  function showPopup() {
+    const popup = document.getElementById('initial-popup');
+    if (popup) {
+      popup.classList.add('active');
+    }
+  }
+
+  // Função para esconder o popup
+  function hidePopup() {
+    const popup = document.getElementById('initial-popup');
+    if (popup) {
+      popup.classList.remove('active');
+    }
+  }
+
+  // Event listeners para fechar o popup
+  document.addEventListener('DOMContentLoaded', () => {
+    const closeButton = document.querySelector('#initial-popup .close-button');
+    const popupCloseBtn = document.getElementById('popup-close-btn');
+    const popupOverlay = document.getElementById('initial-popup');
+
+    if (closeButton) {
+      closeButton.addEventListener('click', hidePopup);
+    }
+    if (popupCloseBtn) {
+      popupCloseBtn.addEventListener('click', hidePopup);
+    }
+    if (popupOverlay) {
+      popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+          hidePopup();
+        }
+      });
+    }
+
+    // Exibir o popup automaticamente ao carregar a página
+    // Você pode adicionar uma lógica aqui para mostrar apenas uma vez por sessão, etc.
+    showPopup();
+
+    // Lógica para alternar entre mensagem e vídeo no popup
+    const showMessageBtn = document.getElementById('show-message-btn');
+    const showVideoBtn = document.getElementById('show-video-btn');
+    const popupMessageText = document.getElementById('popup-message-text');
+    const popupVideoContainer = document.getElementById('popup-video-container');
+
+    function showContent(type) {
+      if (type === 'message') {
+        popupMessageText.style.display = 'block';
+        popupVideoContainer.style.display = 'none';
+        showMessageBtn.classList.add('active');
+        showVideoBtn.classList.remove('active');
+      } else if (type === 'video') {
+        popupMessageText.style.display = 'none';
+        popupVideoContainer.style.display = 'block';
+        showMessageBtn.classList.remove('active');
+        showVideoBtn.classList.add('active');
+      }
+    }
+
+    if (showMessageBtn) {
+      showMessageBtn.addEventListener('click', () => showContent('message'));
+    }
+    if (showVideoBtn) {
+      showVideoBtn.addEventListener('click', () => showContent('video'));
+    }
+
+    // Mostrar a mensagem por padrão ao abrir o popup
+    showContent('message');
+  });
+
+  // Modificar a função showTab para garantir que o popup não interfira
+  const originalShowTab = window.showTab;
+  window.showTab = function(tabId, element) {
+    hidePopup(); // Esconde o popup ao navegar entre as abas
+    if (originalShowTab) {
+      originalShowTab(tabId, element);
+    }
+  };
 </script>
 </body>
 </html>
