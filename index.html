@@ -509,19 +509,25 @@
     <div id="popup-options" style="margin-bottom: 15px;">
       <button id="show-message-btn" class="popup-option-button active">Ver Mensagem</button>
       <button id="show-video-btn" class="popup-option-button">Ver Vídeo</button>
+      <button id="show-image-btn" class="popup-option-button">Ver Imagem</button>
     </div>
-    <!-- Conteúdo do popup pode ser mensagem ou vídeo -->
+    <!-- Conteúdo do popup pode ser mensagem, vídeo ou imagem -->
     <div id="popup-media-content">
       <div id="popup-message-text">
         <p>Fique por dentro das nossas últimas notícias e eventos. Sua participação é muito importante para nós!</p>
       </div>
       <div id="popup-video-container" style="display:none;">
-        <!-- Exemplo de vídeo do YouTube. Substitua o 'src' pelo URL do seu vídeo. -->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/vW806AhP4qQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="ig_video_1757953459.mp4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div id="popup-image-container" style="display:none;">
+	  
+        <img src="logo.png" alt="teste">
+        <p style="margin-top: 10px;">Evento</p>
       </div>
     </div>
     <button id="popup-close-btn" class="popup-action-button">Entendi!</button>
   </div>
+</div>
 </div>
 <header role="banner">
   <img src="logo.png" alt="Logo" class="logo">
@@ -1342,27 +1348,35 @@
       });
     }
 
-    // Exibir o popup automaticamente ao carregar a página
-    // Você pode adicionar uma lógica aqui para mostrar apenas uma vez por sessão, etc.
-    showPopup();
-
-    // Lógica para alternar entre mensagem e vídeo no popup
+    // Lógica para alternar entre mensagem, vídeo e imagem no popup
     const showMessageBtn = document.getElementById('show-message-btn');
     const showVideoBtn = document.getElementById('show-video-btn');
+    const showImageBtn = document.getElementById('show-image-btn');
     const popupMessageText = document.getElementById('popup-message-text');
     const popupVideoContainer = document.getElementById('popup-video-container');
+    const popupImageContainer = document.getElementById('popup-image-container');
 
     function showContent(type) {
+      // Esconder todos os conteúdos primeiro
+      popupMessageText.style.display = 'none';
+      popupVideoContainer.style.display = 'none';
+      popupImageContainer.style.display = 'none';
+      
+      // Remover classe active de todos os botões
+      showMessageBtn.classList.remove('active');
+      showVideoBtn.classList.remove('active');
+      showImageBtn.classList.remove('active');
+      
+      // Mostrar o conteúdo selecionado e marcar o botão como ativo
       if (type === 'message') {
         popupMessageText.style.display = 'block';
-        popupVideoContainer.style.display = 'none';
         showMessageBtn.classList.add('active');
-        showVideoBtn.classList.remove('active');
       } else if (type === 'video') {
-        popupMessageText.style.display = 'none';
         popupVideoContainer.style.display = 'block';
-        showMessageBtn.classList.remove('active');
         showVideoBtn.classList.add('active');
+      } else if (type === 'image') {
+        popupImageContainer.style.display = 'block';
+        showImageBtn.classList.add('active');
       }
     }
 
@@ -1372,9 +1386,15 @@
     if (showVideoBtn) {
       showVideoBtn.addEventListener('click', () => showContent('video'));
     }
+    if (showImageBtn) {
+      showImageBtn.addEventListener('click', () => showContent('image'));
+    }
 
     // Mostrar a mensagem por padrão ao abrir o popup
     showContent('message');
+    
+    // Exibir o popup automaticamente após um pequeno delay
+    setTimeout(showPopup, 1000);
   });
 
   // Modificar a função showTab para garantir que o popup não interfira
